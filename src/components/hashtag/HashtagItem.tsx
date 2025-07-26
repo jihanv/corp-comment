@@ -1,11 +1,8 @@
 import { HashtagItemProps } from "../../lib/types";
 
-export default function HashtagItem({ company, onClick }: HashtagItemProps) {
+export default function HashtagItem({ company, onSelectCompany }: HashtagItemProps) {
 
-    const handleClick = () => {
-        onClick(company)
-    }
     return (
-        <li key={company}><button onClick={handleClick}>#{company}</button></li>
+        <li key={company}><button onClick={() => onSelectCompany(company)}>#{company}</button></li>
     )
 }

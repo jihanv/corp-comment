@@ -6,7 +6,7 @@ export default function HashtagList({ companyList, handleSelectedCompany }: Hash
         <ul className="hashtags">
             {companyList.map(company => {
                 return (
-                    <HashtagItem company={company} onClick={handleSelectedCompany}></HashtagItem>
+                    <HashtagItem key={company} company={company} onSelectCompany={handleSelectedCompany}></HashtagItem>
                 )
             })}
         </ul>

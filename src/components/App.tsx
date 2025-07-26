@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Container from "./layout/Container"
 import Footer from "./layout/Footer"
 import HashtagList from "./hashtag/HashtagList"
@@ -12,9 +12,9 @@ function App() {
   const [selectedCompany, setSelectedCompany] = useState("")
   const companyList = [...new Set(feedbackItems.map(item => item.company))]
 
-  const filteredFeedbackItems = selectedCompany !== "" ?
+  const filteredFeedbackItems = useMemo(() => selectedCompany !== "" ?
     feedbackItems.filter(feedbackItem => feedbackItem.company.toUpperCase() === selectedCompany.toUpperCase())
-    : feedbackItems
+    : feedbackItems, [feedbackItems, selectedCompany])
 
   const fetchFeedbackItems = async () => {
     setIsLoading(true)

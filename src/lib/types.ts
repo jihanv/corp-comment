@@ -34,5 +34,5 @@ export type FeedBackListProps = {
 
 export type HashtagItemProps = {
   company: string;
-  onClick: (text: string) => void;
+  onSelectCompany: (text: string) => void;
 };
