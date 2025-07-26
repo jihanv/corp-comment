@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import Container from "./layout/Container"
 import Footer from "./layout/Footer"
-import HashtagList from "./HashtagList"
+import HashtagList from "./hashtag/HashtagList"
 import { TFeedbackItem } from "../lib/types"
 
 function App() {
@@ -28,14 +28,11 @@ function App() {
 
   const handleAddToList = (text: string) => {
     console.log(text)
-    // Check if valid
 
-    //extract company name
     const company = text.split(" ")
       .find(word => word.includes("#"))!
       .substring(1)
 
-    //create new object
     const newItem: TFeedbackItem = {
       id: new Date().getTime(),
       upvoteCount: 0,
@@ -45,7 +42,6 @@ function App() {
       daysAgo: 0,
     }
 
-    //add object
     setFeedbackItems([...feedbackItems, newItem])
   }
 
@@ -53,11 +49,13 @@ function App() {
     fetchFeedbackItems()
   }, [])
 
+  const companyList = [...new Set(feedbackItems.map(item => item.company))]
+
   return (
     <div className="app">
       <Footer />
       <Container isLoading={isLoading} handleAddToList={handleAddToList} feedbackItems={feedbackItems} errorMessage={errorMessage} />
-      <HashtagList />
+      <HashtagList companyList={companyList} />
     </div>
   )
 }

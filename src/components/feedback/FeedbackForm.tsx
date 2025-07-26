@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { MAX_CHARACTERS } from "../../lib/constants";
+import { FeedbackFormProps } from "../../lib/types";
 
-type FeedbackFormProps = {
-    onAddToList: (text: string) => void,
-}
 export default function FeedbackForm({ onAddToList }: FeedbackFormProps) {
 
     const [text, setText] = useState("")
