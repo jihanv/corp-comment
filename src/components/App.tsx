@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import Container from "./Container"
-import Footer from "./Footer"
+import Container from "./layout/Container"
+import Footer from "./layout/Footer"
 import HashtagList from "./HashtagList"
 import { TFeedbackItem } from "../lib/types"
 
@@ -31,7 +31,7 @@ function App() {
     // Check if valid
 
     //extract company name
-    const companyName = text.split(" ")
+    const company = text.split(" ")
       .find(word => word.includes("#"))!
       .substring(1)
 
@@ -39,8 +39,8 @@ function App() {
     const newItem: TFeedbackItem = {
       id: new Date().getTime(),
       upvoteCount: 0,
-      badgeLetter: companyName.substring(0, 1),
-      companyName: companyName,
+      badgeLetter: company.substring(0, 1),
+      company: company,
       text: text,
       daysAgo: 0,
     }
