@@ -1,47 +1,15 @@
-import { useEffect, useState } from "react"
 import FeedbackItem from "./FeedbackItem"
 import Spinner from "./Spinner"
 import ErrorMessage from "./ErrorMessage"
+import { TFeedbackItem } from "../lib/types"
 
-// const exampleFeedbackItems = [{
-//     upvoteCount: 563,
-//     badgeLetter: "S",
-//     companyName: "Starbucks",
-//     text: "Blah",
-//     daysAgo: 3
-// },
-// {
-//     upvoteCount: 234,
-//     badgeLetter: "D",
-//     companyName: "McDonalds",
-//     text: "BOOO",
-//     daysAgo: 3
-// }]
-export default function FeedbackList() {
+type FeedBackListProps = {
+    isLoading: boolean,
+    feedbackItems: TFeedbackItem[],
+    errorMessage: string
+}
 
-    const [feedbackItems, setFeedbackItems] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
-    const [errorMessage, setErrorMessage] = useState("")
-
-    const fetchFeedbackItems = async () => {
-        setIsLoading(true)
-        try {
-            const response = await fetch("https://bytegrad.com/course-assets/projects/corpcomment/api/feedbacks")
-
-            if (!response.ok) {
-                throw new Error()
-            }
-            const data = await response.json()
-            setFeedbackItems(data.feedbacks)
-        } catch {
-            setErrorMessage("Something went wrong.")
-        }
-        setIsLoading(false)
-    }
-
-    useEffect(() => {
-        fetchFeedbackItems()
-    }, [])
+export default function FeedbackList({ isLoading, feedbackItems, errorMessage }: FeedBackListProps) {
 
     return (
         <ol className="feedback-list">
@@ -51,8 +19,8 @@ export default function FeedbackList() {
             {
                 errorMessage ? <ErrorMessage message={errorMessage} /> : null
             }
-            {feedbackItems.map((feedbackItem) => {
-                return <FeedbackItem feedbackItem={feedbackItem} />
+            {feedbackItems.map((feedbackItem: TFeedbackItem) => {
+                return <FeedbackItem key={feedbackItem.id} feedbackItem={feedbackItem} />
             })}
         </ol>
     )

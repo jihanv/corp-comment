@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { MAX_CHARACTERS } from "../lib/constants";
 
-export default function FeedbackForm() {
+type FeedbackFormProps = {
+    onAddToList: (text: string) => void,
+}
+export default function FeedbackForm({ onAddToList }: FeedbackFormProps) {
 
     const [text, setText] = useState("")
 
@@ -14,6 +17,13 @@ export default function FeedbackForm() {
         }
         setText(newText)
     }
+    const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault()
+        onAddToList(text)
+        setText("")
+    }
+
+
     return (
         <>
             <form className="form">
@@ -28,7 +38,7 @@ export default function FeedbackForm() {
                 </label>
                 <div>
                     <p className="u-italic">{charCount}</p>
-                    <button>
+                    <button onClick={onSubmit}>
                         <span>Submit</span>
                     </button>
                 </div>
