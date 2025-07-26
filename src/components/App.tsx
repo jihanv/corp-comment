@@ -9,6 +9,12 @@ function App() {
   const [feedbackItems, setFeedbackItems] = useState<TFeedbackItem[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
+  const [selectedCompany, setSelectedCompany] = useState("")
+  const companyList = [...new Set(feedbackItems.map(item => item.company))]
+
+  const filteredFeedbackItems = selectedCompany !== "" ?
+    feedbackItems.filter(feedbackItem => feedbackItem.company.toUpperCase() === selectedCompany.toUpperCase())
+    : feedbackItems
 
   const fetchFeedbackItems = async () => {
     setIsLoading(true)
@@ -49,13 +55,14 @@ function App() {
     fetchFeedbackItems()
   }, [])
 
-  const companyList = [...new Set(feedbackItems.map(item => item.company))]
-
+  const handleSelectedCompany = (company: string) => {
+    setSelectedCompany(company)
+  }
   return (
     <div className="app">
       <Footer />
-      <Container isLoading={isLoading} handleAddToList={handleAddToList} feedbackItems={feedbackItems} errorMessage={errorMessage} />
-      <HashtagList companyList={companyList} />
+      <Container isLoading={isLoading} handleAddToList={handleAddToList} feedbackItems={filteredFeedbackItems} errorMessage={errorMessage} />
+      <HashtagList companyList={companyList} handleSelectedCompany={handleSelectedCompany} />
     </div>
   )
 }

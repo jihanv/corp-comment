@@ -12,6 +12,7 @@ export type FeedbackFormProps = {
 };
 export type HashtagListProps = {
   companyList: string[];
+  handleSelectedCompany: (text: string) => void;
 };
 
 export type ContainerProps = {
@@ -29,4 +30,9 @@ export type FeedBackListProps = {
   isLoading: boolean;
   feedbackItems: TFeedbackItem[];
   errorMessage: string;
+};
+
+export type HashtagItemProps = {
+  company: string;
+  onClick: (text: string) => void;
 };
