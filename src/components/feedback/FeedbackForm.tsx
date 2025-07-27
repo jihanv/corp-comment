@@ -5,6 +5,8 @@ import { FeedbackFormProps } from "../../lib/types";
 export default function FeedbackForm({ onAddToList }: FeedbackFormProps) {
 
     const [text, setText] = useState("")
+    const [isValid, setIsValid] = useState(false);
+    const [isInvalid, setIsInvalid] = useState(false)
 
     const charCount = MAX_CHARACTERS - text.length
 
@@ -17,14 +19,25 @@ export default function FeedbackForm({ onAddToList }: FeedbackFormProps) {
     }
     const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
-        onAddToList(text)
-        setText("")
+
+        // Basic validation
+        if (text.includes("#") && text.length > 5) {
+            setIsValid(true)
+            setTimeout(() => setIsValid(false), 2000)
+            onAddToList(text);
+            setText("")
+        } else {
+            setIsInvalid(true)
+            setTimeout(() => setIsInvalid(false), 2000)
+        }
+
+
     }
 
 
     return (
         <>
-            <form className="form">
+            <form className={`form ${isValid ? "form--valid" : ""}  ${isInvalid ? "form--invalid" : ""}`}>
                 <textarea
                     onChange={handleChange}
                     value={text}
@@ -40,7 +53,7 @@ export default function FeedbackForm({ onAddToList }: FeedbackFormProps) {
                         <span>Submit</span>
                     </button>
                 </div>
-            </form>
+            </form >
         </>
     );
 }

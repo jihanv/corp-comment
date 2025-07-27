@@ -32,7 +32,7 @@ function App() {
     setIsLoading(false)
   }
 
-  const handleAddToList = (text: string) => {
+  const handleAddToList = async (text: string) => {
     console.log(text)
 
     const company = text.split(" ")
@@ -49,6 +49,15 @@ function App() {
     }
 
     setFeedbackItems([...feedbackItems, newItem])
+
+    fetch("https://bytegrad.com/course-assets/projects/corpcomment/api/feedbacks", {
+      method: "POST",
+      body: JSON.stringify(newItem),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    })
   }
 
   useEffect(() => {
