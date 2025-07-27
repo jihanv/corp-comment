@@ -1,37 +1,26 @@
 
-import { createContext, useEffect, useMemo, useState } from "react"
+import { createContext, useMemo, useState } from "react"
 import { FeedbackItemsContextProps, TFeedbackItem, TFeedbackItemsContext } from "../lib/types"
+import { useFeedbackItems } from "../lib/hooks"
 
 export const FeedbackItemsContext = createContext<TFeedbackItemsContext | null>(null)
 
 
 export default function FeedbackItemsContextProvider({ children }: FeedbackItemsContextProps) {
+    const { feedbackItems,
+        isLoading,
+        errorMessage,
+        setFeedbackItems,
+    } = useFeedbackItems()
 
-    const [feedbackItems, setFeedbackItems] = useState<TFeedbackItem[]>([])
-    const [isLoading, setIsLoading] = useState(false)
-    const [errorMessage, setErrorMessage] = useState("")
     const [selectedCompany, setSelectedCompany] = useState("")
     const companyList = [...new Set(feedbackItems.map(item => item.company))]
+
+
 
     const filteredFeedbackItems = useMemo(() => selectedCompany !== "" ?
         feedbackItems.filter(feedbackItem => feedbackItem.company.toUpperCase() === selectedCompany.toUpperCase())
         : feedbackItems, [feedbackItems, selectedCompany])
-
-    const fetchFeedbackItems = async () => {
-        setIsLoading(true)
-        try {
-            const response = await fetch("https://bytegrad.com/course-assets/projects/corpcomment/api/feedbacks")
-
-            if (!response.ok) {
-                throw new Error()
-            }
-            const data = await response.json()
-            setFeedbackItems(data.feedbacks)
-        } catch {
-            setErrorMessage("Something went wrong.")
-        }
-        setIsLoading(false)
-    }
 
     const handleAddToList = async (text: string) => {
         console.log(text)
@@ -61,9 +50,6 @@ export default function FeedbackItemsContextProvider({ children }: FeedbackItems
         })
     }
 
-    useEffect(() => {
-        fetchFeedbackItems()
-    }, [])
 
     const handleSelectedCompany = (company: string) => {
         setSelectedCompany(company)
