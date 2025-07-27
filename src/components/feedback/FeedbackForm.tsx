@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { MAX_CHARACTERS } from "../../lib/constants";
-import { FeedbackFormProps } from "../../lib/types";
+import { useFeedbackItemsContext } from "../../lib/hooks";
 
-export default function FeedbackForm({ onAddToList }: FeedbackFormProps) {
+export default function FeedbackForm() {
+
+    const context = useFeedbackItemsContext()
+    const { handleAddToList } = context
 
     const [text, setText] = useState("")
     const [isValid, setIsValid] = useState(false);
@@ -24,7 +27,7 @@ export default function FeedbackForm({ onAddToList }: FeedbackFormProps) {
         if (text.includes("#") && text.length > 5) {
             setIsValid(true)
             setTimeout(() => setIsValid(false), 2000)
-            onAddToList(text);
+            handleAddToList(text);
             setText("")
         } else {
             setIsInvalid(true)

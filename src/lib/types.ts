@@ -36,3 +36,16 @@ export type HashtagItemProps = {
   company: string;
   onSelectCompany: (text: string) => void;
 };
+
+export type TFeedbackItemsContext = {
+  filteredFeedbackItems: TFeedbackItem[];
+  isLoading: boolean;
+  errorMessage: string;
+  companyList: string[];
+  handleAddToList: (text: string) => void;
+  handleSelectedCompany: (text: string) => void;
+};
+
+export type FeedbackItemsContextProps = {
+  children: React.ReactNode;
+};
