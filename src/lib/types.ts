@@ -49,3 +49,16 @@ export type TFeedbackItemsContext = {
 export type FeedbackItemsContextProps = {
   children: React.ReactNode;
 };
+
+export type Store = {
+  feedbackItems: TFeedbackItem[];
+  isLoading: boolean;
+  errorMessage: string;
+  selectedCompany: string;
+  getCompanyList: () => string[];
+  getFilteredFeedbackItems: () => TFeedbackItem[];
+  handleAddToList: (text: string) => Promise<void>;
+  handleSelectedCompany: (company: string) => void;
+  selectCompany: (company: string) => void;
+  fetchFeedbackItems: () => Promise<void>;
+};
